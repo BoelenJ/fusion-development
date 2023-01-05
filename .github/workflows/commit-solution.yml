@@ -9,19 +9,7 @@ on:
     required: true
     
 jobs:
- publish-solution:
-  environment: Dev environment
-  runs-on: ubuntu-latest
-  
-  steps:
-   - uses: actions/checkout@v3
-   - uses: microsoft/powerplatform-actions/publish-solution@v0
-     with:
-      environment-url: ${{ secrets.ENVIRONMENT_URL }}
-      app-id: ${{ secrets.CLIENT_ID }}
-      client-secret: ${{ secrets.CLIENT_SECRET }}
-      tenant-id: ${{ secrets.TENANT_ID }}
- 
+
  export-commit-solution:
   environment: Dev environment
   runs-on: ubuntu-latest
