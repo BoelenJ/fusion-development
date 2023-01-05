@@ -1,52 +1,43 @@
 name: Deploy idea management
 
 on:
- workflow_dispatch:
-  inputs:
-   deploy-creatorkit:
-    type: boolean
-   target-environment:
-    required: true
-    type: environment
-    
+  workflow_dispatch:
+    inputs:
+      deploy-creatorkit:
+        type: boolean
+      target-environment:
+        required: true
+        type: environment
+
 jobs:
+  build-connector:
+    runs-on: ubuntu-latest
 
- build-connector:
-  runs-on: ubuntu-latest
-  
-  steps:
-   - uses: actions/checkout@v3
-   - uses: microsoft/powerplatform-actions/pack-solution@v0
-     with:
-      solution-file: packed-connector/AIServicesconnector.zip
-      solution-folder: solutions/AIServicesconnector/src
-      solution-type: Both
-   - uses: actions/upload-artifact@v3
-     with:
-      name: packed-connector
-      path: packed-connector
-  
+    steps:
+      - uses: actions/checkout@v3
+      - uses: microsoft/powerplatform-actions/pack-solution@v0
+        with:
+          solution-file: packed-connector/AIServicesconnector.zip
+          solution-folder: solutions/AIServicesconnector/src
+          solution-type: Both
+      - uses: actions/upload-artifact@v3
+        with:
+          name: packed-connector
+          path: packed-connector
+
   deploy-connector:
-   runs-on: ubuntu-latest
-   environment: ${{ github.event.inputs.target-environment }}
-   needs: [build-connector]
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.target-environment }}
+    needs: [build-connector]
 
-   steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: packed-connector
-    - uses: microsoft/powerplatform-actions/import-solution@v0
-      with:
-        environment-url: ${{ secrets.ENVIRONMENT_URL }}
-        app-id: ${{ secrets.CLIENT_ID }}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{ secrets.TENANT_ID }}
-        solution-file: AIServicesconnector_managed.zip
-
-      
-      
-       
-
-   
-  
-  
+    steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: packed-connector
+      - uses: microsoft/powerplatform-actions/import-solution@v0
+        with:
+          environment-url: ${{ secrets.ENVIRONMENT_URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-file: AIServicesconnector_managed.zip
