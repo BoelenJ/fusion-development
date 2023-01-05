@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <connectorid>b926081c-a644-4652-a75f-52c23d63551e</connectorid>
+  <description></description>
+  <displayname>AI Services</displayname>
+  <iconbrandcolor>#007ee5</iconbrandcolor>
+  <name>msft_ai-20services</name>
+  <connectortype>1</connectortype>
+  <openapidefinition>/Connector/msft_ai-20services_openapidefinition.json</openapidefinition>
+  <connectionparameters>/Connector/msft_ai-20services_connectionparameters.json</connectionparameters>
+  <policytemplateinstances>/Connector/msft_ai-20services_policytemplateinstances.json</policytemplateinstances>
+  <iconblob>/Connector/msft_ai-20services_iconblob.Png</iconblob>
+</Connector>
