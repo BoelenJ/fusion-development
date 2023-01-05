@@ -1,0 +1,93 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "msft_Dataverseconnectionreference"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "f1f9e89e-b42f-4a5b-86c2-afc736a59124"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 1,
+              "subscriptionRequest/entityname": "msft_idea",
+              "subscriptionRequest/scope": 4,
+              "subscriptionRequest/filterexpression": "msft_imageurl ne null",
+              "subscriptionRequest/runas": 1
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Get_image": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "23b13dbd-86f4-4efa-898c-35d971300d05"
+          },
+          "type": "Http",
+          "inputs": {
+            "method": "GET",
+            "uri": "@triggerOutputs()?['body/msft_imageurl']"
+          }
+        },
+        "Upload_a_file_or_an_image": {
+          "runAfter": {
+            "Get_image": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "d6eb50d8-3e13-4a23-9903-c7de1ae78881"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "UpdateEntityFileImageFieldContent",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "msft_ideas",
+              "recordId": "@triggerOutputs()?['body/msft_ideaid']",
+              "fileImageFieldName": "msft_image",
+              "item": "@body('Get_image')",
+              "x-ms-file-name": "Untitled"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

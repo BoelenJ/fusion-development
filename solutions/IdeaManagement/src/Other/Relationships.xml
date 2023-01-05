@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EntityRelationships xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <EntityRelationship Name="business_unit_msft_idea" />
+  <EntityRelationship Name="business_unit_msft_project" />
+  <EntityRelationship Name="business_unit_msft_review" />
+  <EntityRelationship Name="lk_msft_idea_createdby" />
+  <EntityRelationship Name="lk_msft_idea_modifiedby" />
+  <EntityRelationship Name="lk_msft_project_createdby" />
+  <EntityRelationship Name="lk_msft_project_modifiedby" />
+  <EntityRelationship Name="lk_msft_review_createdby" />
+  <EntityRelationship Name="lk_msft_review_modifiedby" />
+  <EntityRelationship Name="msft_Idea_msft_Project_msft_Project" />
+  <EntityRelationship Name="msft_Review_msft_Idea_msft_Idea" />
+  <EntityRelationship Name="msft_Review_msft_Project_msft_Project" />
+  <EntityRelationship Name="owner_msft_idea" />
+  <EntityRelationship Name="owner_msft_project" />
+  <EntityRelationship Name="owner_msft_review" />
+  <EntityRelationship Name="team_msft_idea" />
+  <EntityRelationship Name="team_msft_project" />
+  <EntityRelationship Name="team_msft_review" />
+  <EntityRelationship Name="user_msft_idea" />
+  <EntityRelationship Name="user_msft_project" />
+  <EntityRelationship Name="user_msft_review" />
+</EntityRelationships>

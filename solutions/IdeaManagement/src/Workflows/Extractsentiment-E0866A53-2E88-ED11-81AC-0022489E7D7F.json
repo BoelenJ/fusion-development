@@ -1,0 +1,183 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "msft_Dataverseconnectionreference"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "When_a_row_is_added,_modified_or_deleted": {
+          "metadata": {
+            "operationMetadataId": "9143de00-30c6-435c-bc30-604d1eea3176"
+          },
+          "type": "OpenApiConnectionWebhook",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "SubscribeWebhookTrigger",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "subscriptionRequest/message": 1,
+              "subscriptionRequest/entityname": "msft_review",
+              "subscriptionRequest/scope": 4
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        }
+      },
+      "actions": {
+        "Predict": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "176bc81d-fe39-41bc-8583-457ef7f53358",
+            "flowSystemMetadata": {
+              "portalOperationId": "aibuilderpredict",
+              "portalOperationGroup": "aibuilder",
+              "portalOperationApiDisplayNameOverride": "AI Builder",
+              "portalOperationIconOverride": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/aiBuilderNew.51dbdb6b.png",
+              "portalOperationBrandColorOverride": "#0A76C4",
+              "portalOperationApiTierOverride": "Standard"
+            }
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "aibuilderpredict",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "recordId": "f1c549c2-a97e-47a5-b612-c5c2bab0f163",
+              "item/requestv2/language": "en",
+              "item/requestv2/text": "@triggerOutputs()?['body/msft_review']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Switch": {
+          "runAfter": {
+            "Predict": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Positive": {
+              "case": "positive",
+              "actions": {
+                "Update_positive": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "msft_reviews",
+                      "recordId": "@triggerOutputs()?['body/msft_reviewid']",
+                      "item/msft_mainsentiment": 459240000,
+                      "item/msft_sentimentconfidence": "@outputs('Predict')?['body/responsev2/predictionOutput/result/documentScores/positive']"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              }
+            },
+            "Negative": {
+              "case": "negative",
+              "actions": {
+                "Update_negative": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "msft_reviews",
+                      "recordId": "@triggerOutputs()?['body/msft_reviewid']",
+                      "item/msft_mainsentiment": 459240001,
+                      "item/msft_sentimentconfidence": "@outputs('Predict')?['body/responsev2/predictionOutput/result/documentScores/negative']"
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Update_neutral": {
+                "runAfter": {},
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps_1",
+                    "operationId": "UpdateRecord",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "msft_reviews",
+                    "recordId": "@triggerOutputs()?['body/msft_reviewid']",
+                    "item/msft_mainsentiment": 459240002,
+                    "item/msft_sentimentconfidence": "@outputs('Predict')?['body/responsev2/predictionOutput/result/documentScores/neutral']"
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": "@outputs('Predict')?['body/responsev2/predictionOutput/result/sentiment']",
+          "metadata": {
+            "operationMetadataId": "b17dc920-3abd-40cd-99ff-180209a57e0e"
+          },
+          "type": "Switch"
+        },
+        "Run_a_Child_Flow": {
+          "runAfter": {
+            "Switch": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "26de87ef-3c7d-4501-8e55-2b11f5de4a84"
+          },
+          "type": "Workflow",
+          "inputs": {
+            "host": {
+              "workflowReferenceName": "8027db6c-768a-ed11-81ac-0022489e7d7f"
+            },
+            "body": {
+              "text": "@triggerOutputs()?['body/_msft_idea_value']"
+            }
+          }
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}

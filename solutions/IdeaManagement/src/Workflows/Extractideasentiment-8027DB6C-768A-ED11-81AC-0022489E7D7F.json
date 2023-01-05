@@ -1,0 +1,399 @@
+{
+  "properties": {
+    "connectionReferences": {
+      "shared_commondataserviceforapps_1": {
+        "runtimeSource": "embedded",
+        "connection": {
+          "connectionReferenceLogicalName": "msft_Dataverseconnectionreference"
+        },
+        "api": {
+          "name": "shared_commondataserviceforapps"
+        }
+      }
+    },
+    "definition": {
+      "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "$connections": {
+          "defaultValue": {},
+          "type": "Object"
+        },
+        "$authentication": {
+          "defaultValue": {},
+          "type": "SecureObject"
+        }
+      },
+      "triggers": {
+        "manual": {
+          "metadata": {
+            "operationMetadataId": "6a05fbc6-587b-4b2b-8460-2063f3acb465"
+          },
+          "type": "Request",
+          "kind": "PowerAppV2",
+          "inputs": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "title": "IdeaGUID",
+                  "type": "string",
+                  "x-ms-dynamically-added": true,
+                  "description": "Please enter your input",
+                  "x-ms-content-hint": "TEXT"
+                }
+              },
+              "required": [
+                "text"
+              ]
+            }
+          }
+        }
+      },
+      "actions": {
+        "Respond_to_a_PowerApp_or_flow": {
+          "runAfter": {
+            "Switch": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "dda22e9b-e46e-448a-b0b8-019b941d0fd1"
+          },
+          "type": "Response",
+          "kind": "PowerApp",
+          "inputs": {
+            "statusCode": 200,
+            "body": {
+              "success": true
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "title": "Success",
+                  "x-ms-dynamically-added": true,
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "Get_a_row_by_ID": {
+          "runAfter": {},
+          "metadata": {
+            "operationMetadataId": "8f8c4650-7fd8-45a7-b385-755b36f449e3"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "GetItem",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "msft_ideas",
+              "recordId": "@triggerBody()['text']"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "List_rows": {
+          "runAfter": {
+            "Get_a_row_by_ID": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "e057cf53-ba78-4f78-b4f8-ad064fe6e44d"
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "ListRecords",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "entityName": "msft_reviews",
+              "$select": "msft_review, _msft_idea_value",
+              "$filter": "_msft_idea_value eq '@{triggerBody()['text']}'"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Initialize_AllComments": {
+          "runAfter": {
+            "List_rows": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "071e4408-05b4-4f8f-bcf2-b3405e5556f5"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "AllComments",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Create_AllComments": {
+          "foreach": "@outputs('List_rows')?['body/value']",
+          "actions": {
+            "Append_to_string_variable": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "7a76591e-14f7-4ce5-b21b-39e0a61be150"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "AllComments",
+                "value": "@items('Create_AllComments')?['msft_review']"
+              }
+            },
+            "Append_to_string_variable_2": {
+              "runAfter": {
+                "Append_to_string_variable": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "6cd62eb9-fd8a-4d3d-9cfb-67d844e4e0b7"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "AllComments",
+                "value": " "
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_AllComments": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "c47f7b0a-49ce-48e7-9206-6be200ac3a23"
+          },
+          "type": "Foreach"
+        },
+        "Extract_sentiment": {
+          "runAfter": {
+            "Create_AllComments": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "21bae0c8-4417-4bf9-8422-6caa4b7d1eeb",
+            "flowSystemMetadata": {
+              "portalOperationId": "aibuilderpredict",
+              "portalOperationGroup": "aibuilder",
+              "portalOperationApiDisplayNameOverride": "AI Builder",
+              "portalOperationIconOverride": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/aiBuilderNew.51dbdb6b.png",
+              "portalOperationBrandColorOverride": "#0A76C4",
+              "portalOperationApiTierOverride": "Standard"
+            }
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "aibuilderpredict",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "recordId": "f1c549c2-a97e-47a5-b612-c5c2bab0f163",
+              "item/requestv2/language": "en",
+              "item/requestv2/text": "@variables('AllComments')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Extract_the_key_phrases_from_text": {
+          "runAfter": {
+            "Extract_sentiment": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "3522c256-429d-4010-9f99-184525b1aff4",
+            "flowSystemMetadata": {
+              "portalOperationId": "aibuilderpredict_keyphraseextraction",
+              "portalOperationGroup": "aibuilder",
+              "portalOperationApiDisplayNameOverride": "AI Builder",
+              "portalOperationIconOverride": "https://content.powerapps.com/resource/makerx/static/pauto/images/designeroperations/aiBuilderNew.51dbdb6b.png",
+              "portalOperationBrandColorOverride": "#0A76C4",
+              "portalOperationApiTierOverride": "Standard"
+            }
+          },
+          "type": "OpenApiConnection",
+          "inputs": {
+            "host": {
+              "connectionName": "shared_commondataserviceforapps_1",
+              "operationId": "aibuilderpredict_keyphraseextraction",
+              "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+            },
+            "parameters": {
+              "item/requestv2/language": "en",
+              "item/requestv2/text": "@variables('AllComments')"
+            },
+            "authentication": "@parameters('$authentication')"
+          }
+        },
+        "Initialize_KeyPhrases": {
+          "runAfter": {
+            "Extract_the_key_phrases_from_text": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "f0d3ccb8-506d-4826-b7df-9fa6812edc87"
+          },
+          "type": "InitializeVariable",
+          "inputs": {
+            "variables": [
+              {
+                "name": "KeyPhrases",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "Create_KeyPhrases": {
+          "foreach": "@outputs('Extract_the_key_phrases_from_text')?['body/responsev2/predictionOutput/results']",
+          "actions": {
+            "Append_to_string_variable_3": {
+              "runAfter": {},
+              "metadata": {
+                "operationMetadataId": "65e4ad7e-31a6-4a3d-bda5-7a14b4e1f68c"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "KeyPhrases",
+                "value": "@items('Create_KeyPhrases')?['phrase']"
+              }
+            },
+            "Append_to_string_variable_4": {
+              "runAfter": {
+                "Append_to_string_variable_3": [
+                  "Succeeded"
+                ]
+              },
+              "metadata": {
+                "operationMetadataId": "793ef044-df8f-405f-bb97-f6fc4a52b42d"
+              },
+              "type": "AppendToStringVariable",
+              "inputs": {
+                "name": "KeyPhrases",
+                "value": " "
+              }
+            }
+          },
+          "runAfter": {
+            "Initialize_KeyPhrases": [
+              "Succeeded"
+            ]
+          },
+          "metadata": {
+            "operationMetadataId": "fb92c6e6-4173-4845-82be-c56259a41b53"
+          },
+          "type": "Foreach"
+        },
+        "Switch": {
+          "runAfter": {
+            "Create_KeyPhrases": [
+              "Succeeded"
+            ]
+          },
+          "cases": {
+            "Positive": {
+              "case": "positive",
+              "actions": {
+                "Update_positive": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "msft_ideas",
+                      "recordId": "@outputs('Get_a_row_by_ID')?['body/msft_ideaid']",
+                      "item/msft_summary": "@variables('KeyPhrases')",
+                      "item/msft_mainsentiment": 459240000,
+                      "item/msft_sentimentconfidence": "@outputs('Extract_sentiment')?['body/responsev2/predictionOutput/result/documentScores/positive']",
+                      "item/msft_sentimentsorting": 3
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              }
+            },
+            "Negative": {
+              "case": "negative",
+              "actions": {
+                "Update_negative": {
+                  "runAfter": {},
+                  "type": "OpenApiConnection",
+                  "inputs": {
+                    "host": {
+                      "connectionName": "shared_commondataserviceforapps_1",
+                      "operationId": "UpdateRecord",
+                      "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                    },
+                    "parameters": {
+                      "entityName": "msft_ideas",
+                      "recordId": "@outputs('Get_a_row_by_ID')?['body/msft_ideaid']",
+                      "item/msft_summary": "@variables('KeyPhrases')",
+                      "item/msft_mainsentiment": 459240001,
+                      "item/msft_sentimentconfidence": "@outputs('Extract_sentiment')?['body/responsev2/predictionOutput/result/documentScores/negative']",
+                      "item/msft_sentimentsorting": 1
+                    },
+                    "authentication": "@parameters('$authentication')"
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "actions": {
+              "Update_neutral": {
+                "runAfter": {},
+                "type": "OpenApiConnection",
+                "inputs": {
+                  "host": {
+                    "connectionName": "shared_commondataserviceforapps_1",
+                    "operationId": "UpdateRecord",
+                    "apiId": "/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps"
+                  },
+                  "parameters": {
+                    "entityName": "msft_ideas",
+                    "recordId": "@outputs('Get_a_row_by_ID')?['body/msft_ideaid']",
+                    "item/msft_summary": "@variables('KeyPhrases')",
+                    "item/msft_mainsentiment": 459240002,
+                    "item/msft_sentimentconfidence": "@outputs('Extract_sentiment')?['body/responsev2/predictionOutput/result/documentScores/neutral']",
+                    "item/msft_sentimentsorting": 2
+                  },
+                  "authentication": "@parameters('$authentication')"
+                }
+              }
+            }
+          },
+          "expression": "@outputs('Extract_sentiment')?['body/responsev2/predictionOutput/result/sentiment']",
+          "metadata": {
+            "operationMetadataId": "73bb54b8-0542-44a9-ba14-0b5da330e1e3"
+          },
+          "type": "Switch"
+        }
+      }
+    },
+    "templateName": ""
+  },
+  "schemaVersion": "1.0.0.0"
+}
