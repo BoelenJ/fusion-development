@@ -60,3 +60,10 @@ jobs:
           tenant-id: ${{ secrets.TENANT_ID }}
           solution-file: connector/AIServicesconnector_managed.zip
           deployment-settings-file: deployment-files/env-variables-connector.json
+      - uses: microsoft/powerplatform-actions/import-solution@v0
+        with:
+          environment-url: ${{ secrets.ENVIRONMENT_URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          solution-file: idea-management/IdeaManagement_managed.zip
