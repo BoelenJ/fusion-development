@@ -12,17 +12,15 @@ on:
 jobs:
 
   download-deploy-creatorkit:
+    if: ${{ github.event.inputs.deploy-creatorkit == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
-      - if: ${{ github.event.inputs.deploy-creatorkit }}
-        uses: actions/checkout@v3
-      - if: ${{ github.event.inputs.deploy-creatorkit }}
-        name: Download Creator Kit
+      - uses: actions/checkout@v3
+      - name: Download Creator Kit
         run: |
           curl -L -o creatorkit.zip https://aka.ms/creatorkitdownload
-      - if: ${{ github.event.inputs.deploy-creatorkit }}
-        uses: microsoft/powerplatform-actions/import-solution@v0
+      - uses: microsoft/powerplatform-actions/import-solution@v0
         with:
           environment-url: ${{ secrets.ENVIRONMENT_URL }}
           app-id: ${{ secrets.CLIENT_ID }}
