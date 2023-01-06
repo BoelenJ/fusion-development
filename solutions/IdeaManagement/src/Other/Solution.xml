@@ -81,7 +81,6 @@
       <RootComponent type="1" schemaName="msft_idea" behavior="0" />
       <RootComponent type="1" schemaName="msft_project" behavior="0" />
       <RootComponent type="1" schemaName="msft_review" behavior="0" />
-      <RootComponent type="29" id="{8027db6c-768a-ed11-81ac-0022489e7d7f}" behavior="0" />
       <RootComponent type="29" id="{e0866a53-2e88-ed11-81ac-0022489e7d7f}" behavior="0" />
       <RootComponent type="29" id="{ead2ea59-5a87-ed11-81ac-0022489e7d7f}" behavior="0" />
       <RootComponent type="300" schemaName="msft_ideamanagement_8e0c7" behavior="0" />
