@@ -16,6 +16,8 @@ jobs:
 
     steps:
       - if: ${{ github.event.inputs.deploy-creatorkit }}
+        uses: actions/checkout@v3
+      - if: ${{ github.event.inputs.deploy-creatorkit }}
         name: Download Creator Kit
         run: |
           curl -L -o creatorkit.zip https://aka.ms/creatorkitdownload
