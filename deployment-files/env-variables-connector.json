@@ -1,0 +1,13 @@
+{
+  "EnvironmentVariables": [
+    {
+      "SchemaName": "msft_BaseURL",
+      "Value": "ai-services"
+    },
+    {
+      "SchemaName": "msft_Host",
+      "Value": "csu-nl-power-platform-apim.azure-api.net"
+    }
+  ],
+  "ConnectionReferences": []
+}
