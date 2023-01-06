@@ -16,10 +16,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - if: ${{ github.event.inputs.deploy-creatorkit == 'true' }}
-        name: Download Creator Kit
-        run: |
-          curl -L -o packed-solutions/creatorkit/creatorkit.zip https://aka.ms/creatorkitdownload
       - uses: microsoft/powerplatform-actions/pack-solution@v0
         with:
           solution-file: packed-solutions/connector/AIServicesconnector.zip
@@ -30,6 +26,10 @@ jobs:
           solution-file: packed-solutions/idea-management/IdeaManagement.zip
           solution-folder: solutions/IdeaManagement/src
           solution-type: Both
+      - if: ${{ github.event.inputs.deploy-creatorkit == 'true' }}
+        name: Download Creator Kit
+        run: |
+          curl -L -o packed-solutions/creatorkit/creatorkit.zip https://aka.ms/creatorkitdownload
       - uses: actions/upload-artifact@v3
         with:
           name: packed-solutions
@@ -44,7 +44,8 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: packed-solutions
-      - uses: microsoft/powerplatform-actions/import-solution@v0
+      - if: ${{ github.event.inputs.deploy-creatorkit == 'true' }}
+        uses: microsoft/powerplatform-actions/import-solution@v0
         with:
           environment-url: ${{ secrets.ENVIRONMENT_URL }}
           app-id: ${{ secrets.CLIENT_ID }}
