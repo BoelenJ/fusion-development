@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.22112.192" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.2.22121.162" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>IdeaManagement</UniqueName>
     <LocalizedNames>
@@ -86,6 +86,7 @@
       <RootComponent type="300" schemaName="msft_ideamanagement_8e0c7" behavior="0" />
       <RootComponent type="431" schemaName="msft_idea msft_image" behavior="0" />
       <RootComponent type="432" schemaName="msft_idea" behavior="0" />
+      <RootComponent type="66" schemaName="msft_SampleNameSpace.guide" behavior="0" />
       <RootComponent type="9" schemaName="msft_projectstatus" behavior="0" />
       <RootComponent type="9" schemaName="msft_sentiment" behavior="0" />
     </RootComponents>
@@ -112,6 +113,10 @@
       </MissingDependency>
       <MissingDependency>
         <Required type="66" schemaName="cat_PowerCAT.FluentDetailsList" displayName="cat_PowerCAT.FluentDetailsList" solution="CreatorKitCore (1.0.20221205.2)" />
+        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
+      </MissingDependency>
+      <MissingDependency>
+        <Required type="66" schemaName="cat_PowerCAT.Nav" displayName="cat_PowerCAT.Nav" solution="CreatorKitCore (1.0.20221205.2)" />
         <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
       </MissingDependency>
       <MissingDependency>
