@@ -3,7 +3,7 @@ name: Create backup of environment
 on:
   workflow_dispatch:
     inputs:
-      label:
+      backup-label:
         required: true
       target-environment:
         required: true
@@ -11,7 +11,7 @@ on:
 
 jobs:
   
-  create-environment:
+  backup-environment:
     environment: ${{ github.event.inputs.target-environment }}
     runs-on: ubuntu-latest
 
@@ -23,4 +23,4 @@ jobs:
           app-id: ${{ secrets.CLIENT_ID }}
           client-secret: ${{ secrets.CLIENT_SECRET }}
           tenant-id: ${{ secrets.TENANT_ID }}
-          backup-label: ${{ github.events.inputs.label }}
+          backup-label: ${{ github.event.inputs.backup-label }}
