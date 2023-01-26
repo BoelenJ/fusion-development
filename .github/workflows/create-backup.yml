@@ -1,0 +1,26 @@
+name: Create backup of environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      label:
+        required: true
+      target-environment:
+        required: true
+        type: environment
+
+jobs:
+  
+  create-environment:
+    environment: ${{ github.event.inputs.target-environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: microsoft/powerplatform-actions/backup-environment@v0
+        with:
+          environment-url: ${{ secrets.ENVIRONMENT_URL }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
+          backup-label: ${{ github.events.inputs.label }}
