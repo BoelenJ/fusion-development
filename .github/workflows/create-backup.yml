@@ -20,6 +20,7 @@ jobs:
       - uses: microsoft/powerplatform-actions/backup-environment@v0
         with:
           environment-url: ${{ secrets.ENVIRONMENT_URL }}
-          user-name: ${{ secrets.USER_NAME }}
-          password-secret: ${{ secrets.PASSWORD_SECRET }}
+          app-id: ${{ secrets.CLIENT_ID }}
+          client-secret: ${{ secrets.CLIENT_SECRET }}
+          tenant-id: ${{ secrets.TENANT_ID }}
           backup-label: ${{ github.event.inputs.backup-label }}
