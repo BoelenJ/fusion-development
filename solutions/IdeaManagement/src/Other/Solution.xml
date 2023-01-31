@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ImportExportXml version="9.2.22121.162" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ImportExportXml version="9.2.22122.158" SolutionPackageVersion="9.2" languagecode="1033" generatedBy="CrmLive" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SolutionManifest>
     <UniqueName>IdeaManagement</UniqueName>
     <LocalizedNames>
       <LocalizedName description="Idea Management" languagecode="1033" />
     </LocalizedNames>
     <Descriptions />
-    <Version>1.0.0.11</Version>
+    <Version>1.0.0.12</Version>
     <Managed>2</Managed>
     <Publisher>
       <UniqueName>microsoft</UniqueName>
@@ -92,44 +92,12 @@
     </RootComponents>
     <MissingDependencies>
       <MissingDependency>
-        <Required type="372" schemaName="msft_ai-20services" displayName="AI Services" solution="Active" id="{b926081c-a644-4652-a75f-52c23d63551e}" />
+        <Required type="372" schemaName="msft_5Fopenai" displayName="OpenAI" solution="Active" id="{e2b53eeb-1846-43e5-ac83-fb45e95df9fd}" />
         <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
       </MissingDependency>
       <MissingDependency>
-        <Required type="372" schemaName="msft_ai-20services" displayName="AI Services" solution="Active" id="{b926081c-a644-4652-a75f-52c23d63551e}" />
-        <Dependent type="connectionreference" displayName="msft_AIServicesCR" id.connectionreferencelogicalname="msft_AIServicesCR" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.Breadcrumb" displayName="cat_PowerCAT.Breadcrumb" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.CommandBar" displayName="cat_PowerCAT.CommandBar" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.Elevation" displayName="cat_PowerCAT.Elevation" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.FluentDetailsList" displayName="cat_PowerCAT.FluentDetailsList" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.Nav" displayName="cat_PowerCAT.Nav" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.ResizableTextarea" displayName="cat_PowerCAT.ResizableTextarea" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.Spinner" displayName="cat_PowerCAT.Spinner" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
-      </MissingDependency>
-      <MissingDependency>
-        <Required type="66" schemaName="cat_PowerCAT.SubwayNav" displayName="cat_PowerCAT.SubwayNav" solution="CreatorKitCore (1.0.20221205.2)" />
-        <Dependent type="300" schemaName="msft_ideamanagement_8e0c7" displayName="Idea Management" />
+        <Required type="372" schemaName="msft_5Fopenai" displayName="OpenAI" solution="Active" id="{e2b53eeb-1846-43e5-ac83-fb45e95df9fd}" />
+        <Dependent type="connectionreference" displayName="msft_OpenAICR" id.connectionreferencelogicalname="msft_OpenAICR" />
       </MissingDependency>
     </MissingDependencies>
   </SolutionManifest>

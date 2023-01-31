@@ -26,19 +26,19 @@
   <EntityDataProviders />
   <CanvasApps />
   <connectionreferences>
-    <connectionreference connectionreferencelogicalname="msft_AIServicesCR">
-      <connectionreferencedisplayname>AI Services CR</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_msft-5fai-20services-5fd9c49b84a5d17753</connectorid>
-      <customconnectorid>
-        <connectorid>b926081c-a644-4652-a75f-52c23d63551e</connectorid>
-      </customconnectorid>
+    <connectionreference connectionreferencelogicalname="msft_Dataverseconnectionreference">
+      <connectionreferencedisplayname>Dataverse connection reference</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
     </connectionreference>
-    <connectionreference connectionreferencelogicalname="msft_Dataverseconnectionreference">
-      <connectionreferencedisplayname>Dataverse connection reference</connectionreferencedisplayname>
-      <connectorid>/providers/Microsoft.PowerApps/apis/shared_commondataserviceforapps</connectorid>
+    <connectionreference connectionreferencelogicalname="msft_OpenAICR">
+      <connectionreferencedisplayname>OpenAI CR</connectionreferencedisplayname>
+      <connectorid>/providers/Microsoft.PowerApps/apis/shared_msft-5fopenai-5fd9c49b84a5d17753</connectorid>
+      <customconnectorid>
+        <connectorid>e2b53eeb-1846-43e5-ac83-fb45e95df9fd</connectorid>
+      </customconnectorid>
       <iscustomizable>1</iscustomizable>
       <statecode>0</statecode>
       <statuscode>1</statuscode>
