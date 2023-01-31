@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Connector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <connectorid>e2b53eeb-1846-43e5-ac83-fb45e95df9fd</connectorid>
+  <description></description>
+  <displayname>OpenAI</displayname>
+  <iconbrandcolor>#007ee5</iconbrandcolor>
+  <name>msft_5Fopenai</name>
+  <connectortype>1</connectortype>
+  <openapidefinition>/Connector/msft_5Fopenai_openapidefinition.json</openapidefinition>
+  <connectionparameters>/Connector/msft_5Fopenai_connectionparameters.json</connectionparameters>
+  <policytemplateinstances>/Connector/msft_5Fopenai_policytemplateinstances.json</policytemplateinstances>
+  <iconblob>/Connector/msft_5Fopenai_iconblob.Png</iconblob>
+</Connector>
