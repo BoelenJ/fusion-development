@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <CanvasApp xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>msft_ideamanagement_8e0c7</Name>
-  <AppVersion>2023-01-31T16:20:20Z</AppVersion>
+  <AppVersion>2023-02-02T09:43:26Z</AppVersion>
   <Status>Ready</Status>
-  <CreatedByClientVersion>3.23013.12.0</CreatedByClientVersion>
-  <MinClientVersion>3.23013.12.0</MinClientVersion>
-  <Tags>{"primaryDeviceWidth":"2047","primaryDeviceHeight":"931","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.23013.12","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","sienaVersion":"20230125T080212Z-3.23012.17.0"}</Tags>
+  <CreatedByClientVersion>3.23014.14.0</CreatedByClientVersion>
+  <MinClientVersion>3.23014.14.0</MinClientVersion>
+  <Tags>{"primaryDeviceWidth":"1599","primaryDeviceHeight":"845","supportsPortrait":"true","supportsLandscape":"true","primaryFormFactor":"Tablet","publisherVersion":"3.23014.14","minimumRequiredApiVersion":"2.2.0","hasComponent":"true","hasUnlockedComponent":"true","isUnifiedRootApp":"false","sienaVersion":"20230131T162020Z-3.23013.12.0"}</Tags>
   <IsCdsUpgraded>0</IsCdsUpgraded>
   <GalleryItemId xsi:nil="true"></GalleryItemId>
   <BackgroundColor>RGBA(0,176,240,1)</BackgroundColor>
